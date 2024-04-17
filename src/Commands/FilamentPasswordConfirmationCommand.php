@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace JulioMotol\FilamentPasswordConfirmation\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FilamentPasswordConfirmationCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'filament-password-confirmation';
 
     public $description = 'My command';
 
