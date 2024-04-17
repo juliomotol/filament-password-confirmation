@@ -2,6 +2,7 @@
 
 namespace JulioMotol\FilamentPasswordConfirmation;
 
+use JulioMotol\FilamentPasswordConfirmation\Pages\ConfirmPassword;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -48,5 +49,6 @@ class FilamentPasswordConfirmationServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        Livewire::component('julio-motol.filament-password-confirmation.pages.confirm-password', ConfirmPassword::class);
     }
 }

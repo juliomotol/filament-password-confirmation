@@ -12,6 +12,9 @@ use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\Schema;
 use JulioMotol\FilamentPasswordConfirmation\FilamentPasswordConfirmationServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -19,6 +22,8 @@ use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
 class TestCase extends Orchestra
 {
+    use LazilyRefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -40,11 +45,19 @@ class TestCase extends Orchestra
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
             FilamentPasswordConfirmationServiceProvider::class,
+            Fixtures\AdminPanelProvider::class,
         ];
     }
 
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+
+        Schema::create('users', function (Blueprint $table) {
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
     }
 }
