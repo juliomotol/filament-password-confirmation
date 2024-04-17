@@ -12,21 +12,16 @@ use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use JulioMotol\FilamentPasswordConfirmation\FilamentPasswordConfirmationServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use JulioMotol\FilamentPasswordConfirmation\FilamentPasswordConfirmationServiceProvider;
 
 class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'JulioMotol\\FilamentPasswordConfirmation\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
-        );
     }
 
     protected function getPackageProviders($app)
@@ -51,10 +46,5 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_filament-password-confirmation_table.php.stub';
-        $migration->up();
-        */
     }
 }
