@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\SimplePage;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -79,7 +80,11 @@ class ConfirmPassword extends SimplePage
                 default => 'heroicon-m-arrow-left',
             })
             ->keyBindings('esc')
-            ->url(url()->previous());
+            ->url(
+                ($previous = url()->previous()) !== Request::url()
+                    ? $previous
+                    : Filament::getUrl()
+            );
     }
 
     protected function hasFullWidthFormActions(): bool

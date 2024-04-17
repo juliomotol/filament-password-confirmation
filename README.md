@@ -38,7 +38,7 @@ You can configure the route name, uri and middleware.
 RenewPasswordPlugin::make()
     ->routeName('confirm')
     ->routeUri('auth/confirm')
-    ->routeMiddleware(FooMiddleware::class) // Accepts string|array|null
+    ->routeMiddleware(FooMiddleware::class) // Accepts string|array
 ```
 
 Optionally, you can publish the translations and views using.

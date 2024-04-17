@@ -3,9 +3,11 @@
 namespace JulioMotol\FilamentPasswordConfirmation;
 
 use Filament\Contracts\Plugin;
+use Filament\Facades\Filament;
 use Filament\Panel;
 use Illuminate\Support\Facades\Route;
 use JulioMotol\FilamentPasswordConfirmation\Pages\ConfirmPassword;
+use LogicException;
 
 class FilamentPasswordConfirmationPlugin implements Plugin
 {
@@ -13,7 +15,7 @@ class FilamentPasswordConfirmationPlugin implements Plugin
 
     protected string $routeUri = 'auth/confirm';
 
-    protected string | array | null $routeMiddleware = null;
+    protected string | array $routeMiddleware = [];
 
     public function getId(): string
     {
@@ -23,11 +25,10 @@ class FilamentPasswordConfirmationPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->authenticatedRoutes(
-            fn () => Route::middleware($this->routeMiddleware)->get($this->routeUri, ConfirmPassword::class)
+            fn () => Route::middleware($this->routeMiddleware)
+                ->get($this->routeUri, ConfirmPassword::class)
                 ->name($this->routeName)
         );
-
-        $panel->macro('getPasswordConfirmationRouteName', fn () => $panel->generateRouteName('confirm'));
     }
 
     public function boot(Panel $panel): void
@@ -62,10 +63,21 @@ class FilamentPasswordConfirmationPlugin implements Plugin
         return $this;
     }
 
-    public function routeMiddleware(string | array | null $routeMiddleware): self
+    public function routeMiddleware(string | array $routeMiddleware): self
     {
         $this->routeMiddleware = $routeMiddleware;
 
         return $this;
+    }
+
+    public function getPasswordConfirmationRouteName(): string
+    {
+        $panel = Filament::getCurrentPanel();
+
+        if (! $panel) {
+            throw new LogicException('No Filament Panel Initialized.');
+        }
+
+        return $panel->generateRouteName($this->routeName);
     }
 }

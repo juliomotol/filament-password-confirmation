@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Session;
 use JulioMotol\FilamentPasswordConfirmation\Pages\ConfirmPassword;
 use JulioMotol\FilamentPasswordConfirmation\Tests\Fixtures\UserFactory;
 use Livewire\Livewire;
@@ -17,6 +18,8 @@ it('can confirm password', function () {
         ->fillForm(['password' => 'password'])
         ->call('confirm')
         ->assertHasNoErrors();
+
+    expect(Session::has('auth.password_confirmed_at'))->toBeTrue();
 });
 
 it('throws error on invalid password', function () {
@@ -24,4 +27,6 @@ it('throws error on invalid password', function () {
         ->fillForm(['password' => 'invalid'])
         ->call('confirm')
         ->assertHasFormErrors();
+
+    expect(Session::has('auth.password_confirmed_at'))->toBeFalse();
 });
