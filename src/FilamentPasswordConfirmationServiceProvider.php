@@ -23,16 +23,10 @@ class FilamentPasswordConfirmationServiceProvider extends PackageServiceProvider
          */
         $package->name(static::$name)
             ->hasInstallCommand(function (InstallCommand $command) {
-                $command
-                    ->publishConfigFile()
-                    ->askToStarRepoOnGitHub('juliomotol/filament-password-confirmation');
+                $command->askToStarRepoOnGitHub('juliomotol/filament-password-confirmation');
             });
 
         $configFileName = $package->shortName();
-
-        if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
-            $package->hasConfigFile();
-        }
 
         if (file_exists($package->basePath('/../resources/lang'))) {
             $package->hasTranslations();
