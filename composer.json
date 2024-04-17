@@ -1,6 +1,6 @@
 {
     "name": "juliomotol/filament-password-confirmation",
-    "description": "Prompt your users to re-enter their password before performing sensitive actions.",
+    "description": "Prompt users to re-enter their password before performing sensitive actions.",
     "keywords": [
         "juliomotol",
         "laravel",

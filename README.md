@@ -1,4 +1,4 @@
-# Prompt your users to re-enter their password before performing sensitive actions.
+# Filament Password Confirmation
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juliomotol/filament-password-confirmation.svg?style=flat-square)](https://packagist.org/packages/juliomotol/filament-password-confirmation)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/juliomotol/filament-password-confirmation/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/juliomotol/filament-password-confirmation/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -6,8 +6,11 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/juliomotol/filament-password-confirmation.svg?style=flat-square)](https://packagist.org/packages/juliomotol/filament-password-confirmation)
 
 
+Simplifies adding a secure password confirmation step to your admin panels.
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+- Prompts users to re-enter their password before performing sensitive actions.
+- Increases security by preventing accidental or unauthorized actions due to long session times.
+- Easy to integrate and highly configurable.
 
 ## Installation
 
@@ -17,37 +20,52 @@ You can install the package via composer:
 composer require juliomotol/filament-password-confirmation
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-password-confirmation-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-password-confirmation-config"
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="filament-password-confirmation-views"
-```
-
-This is the contents of the published config file:
+Then add the plugin to your panel.
 
 ```php
-return [
-];
+JulioMotol\FilamentPasswordConfirmation\FilamentPasswordConfirmationPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+       ->plugin(RenewPasswordPlugin::make());
+}
+```
+
+You can configure the route name, uri and middleware.
+
+```php
+RenewPasswordPlugin::make()
+    ->routeName('confirm')
+    ->routeUri('auth/confirm')
+    ->routeMiddleware(FooMiddleware::class) // Accepts string|array|null
+```
+
+Optionally, you can publish the translations and views using.
+
+```bash
+php artisan vendor:publish --tag="filament-password-confirmation-translations"
+php artisan vendor:publish --tag="filament-password-confirmation-views"
 ```
 
 ## Usage
 
+Simply use `RequiresPasswordConfirmation` in your pages/resources.
+
 ```php
-$filamentPasswordConfirmation = new JulioMotol\FilamentPasswordConfirmation();
-echo $filamentPasswordConfirmation->echoPhrase('Hello, JulioMotol!');
+use JulioMotol\FilamentPasswordConfirmation\RequiresPasswordConfirmation;
+
+class AdminResource extends Resource
+{
+    use RequiresPasswordConfirmation;
+    ...
+}
+```
+
+You can configure the password confirmation timeout.
+
+```php
+protected static ?int $passwordTimeout = 360;
 ```
 
 ## Testing
