@@ -9,6 +9,12 @@ use JulioMotol\FilamentPasswordConfirmation\Pages\ConfirmPassword;
 
 class FilamentPasswordConfirmationPlugin implements Plugin
 {
+    protected string $routeName = 'confirm';
+
+    protected string $routeUri = 'auth/confirm';
+
+    protected string | array | null $routeMiddleware = null;
+
     public function getId(): string
     {
         return 'filament-password-confirmation';
@@ -16,8 +22,10 @@ class FilamentPasswordConfirmationPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        // TODO Configure name, path, middleware
-        $panel->authenticatedRoutes(fn () => Route::get('confirm', ConfirmPassword::class)->name('confirm'));
+        $panel->authenticatedRoutes(
+            fn () => Route::middleware($this->routeMiddleware)->get($this->routeUri, ConfirmPassword::class)
+                ->name($this->routeName)
+        );
 
         $panel->macro('getPasswordConfirmationRouteName', fn () => $panel->generateRouteName('confirm'));
     }
@@ -38,5 +46,26 @@ class FilamentPasswordConfirmationPlugin implements Plugin
         $plugin = filament(app(static::class)->getId());
 
         return $plugin;
+    }
+
+    public function routeName(string $routeName): self
+    {
+        $this->routeName = $routeName;
+
+        return $this;
+    }
+
+    public function routeUri(string $routeUri): self
+    {
+        $this->routeUri = $routeUri;
+
+        return $this;
+    }
+
+    public function routeMiddleware(string | array | null $routeMiddleware): self
+    {
+        $this->routeMiddleware = $routeMiddleware;
+
+        return $this;
     }
 }
