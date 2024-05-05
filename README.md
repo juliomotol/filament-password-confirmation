@@ -39,7 +39,7 @@ RenewPasswordPlugin::make()
     ->routeName('confirm')
     ->routeUri('auth/confirm')
     ->routeMiddleware(FooMiddleware::class) // Accepts string|array
-    ->passwordTimeout(10800) // Accepts int|null that represents the number of seconds
+    ->passwordTimeout(10800) // Accepts int|null that represents the amount of seconds
 ```
 
 Optionally, you can publish the translations and views using.
@@ -72,7 +72,7 @@ class AdminResource extends Resource
 {
     use RequiresPasswordConfirmation;
 
-    protected static ?int $passwordTimeout = 360;
+    protected static ?int $passwordTimeout = 360; // the amount of seconds
     ...
 }
 ```
