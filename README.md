@@ -32,13 +32,14 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-You can configure the route name, uri and middleware.
+You can configure the route name, uri, middleware and password timeout duration.
 
 ```php
 RenewPasswordPlugin::make()
     ->routeName('confirm')
     ->routeUri('auth/confirm')
     ->routeMiddleware(FooMiddleware::class) // Accepts string|array
+    ->passwordTimeout(10800) // Accepts int|null that represents the number of seconds
 ```
 
 Optionally, you can publish the translations and views using.
@@ -62,11 +63,24 @@ class AdminResource extends Resource
 }
 ```
 
-You can configure the password confirmation timeout.
+You can configure the password confirmation timeout within your page/resource.
 
 ```php
-protected static ?int $passwordTimeout = 360;
+use JulioMotol\FilamentPasswordConfirmation\RequiresPasswordConfirmation;
+
+class AdminResource extends Resource
+{
+    use RequiresPasswordConfirmation;
+
+    protected static ?int $passwordTimeout = 360;
+    ...
+}
 ```
+
+> NOTE: The password timeout duration is determined in the following order until it encounters a non-null value.
+> 1. `$passwordTimeout` property in the page/resource
+> 2. `passwordTimeout()` configured in the plugin during registry
+> 3. `auth.password_timeout` config assigned in `config/auth.php`
 
 ## Testing
 

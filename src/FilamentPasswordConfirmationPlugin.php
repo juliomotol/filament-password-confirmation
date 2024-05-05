@@ -17,6 +17,8 @@ class FilamentPasswordConfirmationPlugin implements Plugin
 
     protected string | array $routeMiddleware = [];
 
+    protected ?int $passwordTimeout = null;
+
     public function getId(): string
     {
         return 'filament-password-confirmation';
@@ -68,6 +70,18 @@ class FilamentPasswordConfirmationPlugin implements Plugin
         $this->routeMiddleware = $routeMiddleware;
 
         return $this;
+    }
+
+    public function passwordTimeout(int|null $passwordTimeout): self
+    {
+        $this->passwordTimeout = $passwordTimeout;
+
+        return $this;
+    }
+
+    public function getPasswordTimeout(): int|null
+    {
+        return $this->passwordTimeout;
     }
 
     public function getPasswordConfirmationRouteName(): string

@@ -21,7 +21,10 @@ trait RequiresPasswordConfirmation
         }
 
         return [
-            RequirePassword::using($plugin->getPasswordConfirmationRouteName(), static::$passwordTimeout ?? config('auth.password_timeout')),
+            RequirePassword::using(
+                $plugin->getPasswordConfirmationRouteName(),
+                static::$passwordTimeout  ?? $plugin->getPasswordTimeout() ?? config('auth.password_timeout')
+            ),
             ...Arr::wrap(static::$routeMiddleware),
         ];
     }
