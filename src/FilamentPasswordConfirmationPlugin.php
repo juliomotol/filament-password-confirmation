@@ -72,14 +72,14 @@ class FilamentPasswordConfirmationPlugin implements Plugin
         return $this;
     }
 
-    public function passwordTimeout(int|null $passwordTimeout): self
+    public function passwordTimeout(?int $passwordTimeout): self
     {
         $this->passwordTimeout = $passwordTimeout;
 
         return $this;
     }
 
-    public function getPasswordTimeout(): int|null
+    public function getPasswordTimeout(): ?int
     {
         return $this->passwordTimeout;
     }
