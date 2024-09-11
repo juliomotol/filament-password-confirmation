@@ -28,7 +28,7 @@ JulioMotol\FilamentPasswordConfirmation\FilamentPasswordConfirmationPlugin;
 public function panel(Panel $panel): Panel
 {
     return $panel
-       ->plugin(RenewPasswordPlugin::make());
+       ->plugin(FilamentPasswordConfirmationPlugin::make());
 }
 ```
 
