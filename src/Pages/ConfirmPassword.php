@@ -56,7 +56,8 @@ class ConfirmPassword extends SimplePage
                     ->password()
                     ->currentPassword()
                     ->required()
-                    ->autofocus(),
+                    ->autofocus()
+                    ->revealable(),
             ])
             ->statePath('data');
     }
