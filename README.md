@@ -35,7 +35,7 @@ public function panel(Panel $panel): Panel
 You can configure the route name, uri, middleware and password timeout duration.
 
 ```php
-RenewPasswordPlugin::make()
+FilamentPasswordConfirmationPlugin::make()
     ->routeName('confirm')
     ->routeUri('auth/confirm')
     ->routeMiddleware(FooMiddleware::class) // Accepts string|array
