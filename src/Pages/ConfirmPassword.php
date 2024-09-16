@@ -60,7 +60,7 @@ class ConfirmPassword extends SimplePage
                     ->required()
                     ->autofocus()
                     ->when(
-                        InstalledVersions::satisfies(new VersionParser, 'filament/filament', '^3.2'),
+                        fn (TextInput $input) => method_exists($input, 'revealable'),
                         fn(TextInput $input) => $input->revealable()
                     ),
             ])
