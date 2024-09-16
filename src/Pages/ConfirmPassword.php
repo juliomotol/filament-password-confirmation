@@ -2,6 +2,8 @@
 
 namespace JulioMotol\FilamentPasswordConfirmation\Pages;
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
@@ -57,7 +59,10 @@ class ConfirmPassword extends SimplePage
                     ->currentPassword()
                     ->required()
                     ->autofocus()
-                    ->revealable(),
+                    ->when(
+                        InstalledVersions::satisfies(new VersionParser, 'filament/filament', '^3.2'),
+                        fn(TextInput $input) => $input->revealable()
+                    ),
             ])
             ->statePath('data');
     }
