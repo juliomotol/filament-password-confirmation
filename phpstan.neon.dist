@@ -1,12 +1,14 @@
 includes:
-    - phpstan-baseline.neon
+    - ./vendor/larastan/larastan/extension.neon
 
 parameters:
     level: 9
     paths:
         - src
+    ignoreErrors:
+        -
+            identifier: trait.unused
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
 

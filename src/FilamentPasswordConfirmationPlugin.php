@@ -15,6 +15,7 @@ class FilamentPasswordConfirmationPlugin implements Plugin
 
     protected string $routeUri = 'auth/confirm';
 
+    /** @var string|array<string> */
     protected string | array $routeMiddleware = [];
 
     protected ?int $passwordTimeout = null;
@@ -62,6 +63,7 @@ class FilamentPasswordConfirmationPlugin implements Plugin
         return $this;
     }
 
+    /** @param string|array<string> $routeMiddleware */
     public function routeMiddleware(string | array $routeMiddleware): self
     {
         $this->routeMiddleware = $routeMiddleware;
@@ -83,7 +85,7 @@ class FilamentPasswordConfirmationPlugin implements Plugin
 
     public function getPasswordConfirmationRouteName(): string
     {
-        $panel = Filament::getCurrentPanel();
+        $panel = Filament::getCurrentOrDefaultPanel();
 
         if (! $panel) {
             throw new LogicException('No Filament Panel Initialized.');

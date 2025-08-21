@@ -7,7 +7,7 @@ use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Arr;
 use LogicException;
 
-/** @property-read string|array $routeMiddleware */
+/** @property-read string|array<string> $routeMiddleware */
 trait RequiresPasswordConfirmation
 {
     protected static ?int $passwordTimeout = null;

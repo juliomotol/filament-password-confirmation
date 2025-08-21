@@ -5,22 +5,23 @@ namespace JulioMotol\FilamentPasswordConfirmation\Pages;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\SimplePage;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 /**
- * @property Form $form
+ * @property \Filament\Schemas\Schema $form
  */
 class ConfirmPassword extends SimplePage
 {
     use InteractsWithFormActions;
 
-    protected static string $view = 'filament-password-confirmation::pages.confirm-password';
+    protected string $view = 'filament-password-confirmation::pages.confirm-password';
 
+    /** @var array<string,mixed> */
     public array $data = [];
 
     public function mount(): void
@@ -47,24 +48,22 @@ class ConfirmPassword extends SimplePage
         $this->redirect(Session::pull('url.intended', Filament::getUrl()));
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('password')
                     ->label(__('filament-password-confirmation::pages/password-confirmation.form.password.label'))
                     ->password()
                     ->currentPassword()
                     ->required()
                     ->autofocus()
-                    ->when(
-                        fn (TextInput $input) => method_exists($input, 'revealable'),
-                        fn (TextInput $input) => $input->revealable()
-                    ),
+                    ->revealable(),
             ])
             ->statePath('data');
     }
 
+    /** @return array<Action> */
     protected function getFormActions(): array
     {
         return [
